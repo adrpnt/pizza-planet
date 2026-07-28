@@ -16,6 +16,12 @@ class User {
     const passwordHash = await hash(password, 8);
     const user = await prismaClient.user.create({
       data: { name, email, password: passwordHash },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+      },
     });
 
     return user;
