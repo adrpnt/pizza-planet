@@ -1,5 +1,16 @@
 import { z } from "zod";
 
+const authUserSchema = z.object({
+  body: z.object({
+    email: z.email({
+      message: "The email field must contain a valid email address",
+    }),
+    password: z.string({ message: "The password field is required" }).min(1, {
+      message: "The password field is required",
+    }),
+  }),
+});
+
 const createUserSchema = z.object({
   body: z.object({
     name: z
@@ -14,4 +25,4 @@ const createUserSchema = z.object({
   }),
 });
 
-export { createUserSchema };
+export { authUserSchema, createUserSchema };

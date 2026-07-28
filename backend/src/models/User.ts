@@ -1,9 +1,45 @@
-import { hash } from "bcryptjs";
+import "dotenv/config";
 
+import jwt from "jsonwebtoken";
+import { compare, hash } from "bcryptjs";
+
+import { type AuthType } from "../types/AuthType.ts";
 import { type UserType } from "../types/UserType.ts";
 import prismaClient from "../prisma/index.ts";
 
+const { sign } = jwt;
+
 class User {
+  async auth({ email, password }: AuthType) {
+    const user = await prismaClient.user.findFirst({
+      where: { email: email },
+    });
+
+    if (!user) {
+      throw new Error("User not exists");
+    }
+
+    const passwordMatch = await compare(password, user.password);
+
+    if (!passwordMatch) {
+      throw new Error("Wrong password");
+    }
+
+    const token = sign(
+      { name: user.name, email: user.email },
+      process.env.JWT_SECRET as string,
+      { subject: user.id, expiresIn: "30d" },
+    );
+
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      token,
+    };
+  }
+
   async create({ name, email, password }: UserType) {
     const userAlreadyExists = await prismaClient.user.findFirst({
       where: { email: email },
