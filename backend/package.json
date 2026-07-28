@@ -1,0 +1,25 @@
+{
+  "name": "pizza-planet backend",
+  "version": "1.0.0",
+  "description": "Backend em Node de sistema para pizzaria.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch --experimental-strip-types src/server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Adriano Vasconcelos",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.1.2",
+    "typescript": "^7.0.2"
+  }
+}
