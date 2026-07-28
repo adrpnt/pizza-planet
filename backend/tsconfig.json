@@ -34,6 +34,9 @@
     "allowSyntheticDefaultImports": true, // Permite imports default sintéticos
     "resolveJsonModule": true, // Permite importar arquivos .json
     "isolatedModules": true, // Cada arquivo pode ser transpilado independentemente
+    "noEmitOnError": true,
+    "rewriteRelativeImportExtensions": true,
+    "allowImportingTsExtensions": true,
 
     // Emit
     "declaration": false, // Não gera arquivos .d.ts de declaração
