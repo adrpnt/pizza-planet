@@ -8,7 +8,7 @@ class UserController {
     const userModel = new User();
     const user = await userModel.create({ name, email, password });
 
-    res.json(user);
+    res.json({ message: "User created successfully", user });
   }
 }
 

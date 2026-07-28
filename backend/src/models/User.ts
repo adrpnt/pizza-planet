@@ -18,7 +18,7 @@ class User {
       data: { name, email, password: passwordHash },
     });
 
-    return { message: "User created successfully", user };
+    return user;
   }
 }
 
