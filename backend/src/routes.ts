@@ -11,4 +11,6 @@ router.post("/users", validateSchema(createUserSchema), userController.store);
 
 router.post("/session", validateSchema(authUserSchema), userController.auth);
 
+router.get("/me", userController.show);
+
 export { router };

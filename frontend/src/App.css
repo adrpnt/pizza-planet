@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
+
+.ppl-display {
+  font-family: "Space Grotesk", sans-serif;
+}
+.ppl-body {
+  font-family: "Inter", sans-serif;
+}
+.ppl-mono {
+  font-family: "JetBrains Mono", monospace;
+}
+
+@keyframes ppl-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ppl-spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+@keyframes ppl-twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes ppl-drift {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.ppl-orbit-spin {
+  animation: ppl-spin 26s linear infinite;
+}
+.ppl-orbit-spin-slow {
+  animation: ppl-spin 42s linear infinite;
+}
+.ppl-satellite-counter {
+  animation: ppl-spin-reverse 26s linear infinite;
+}
+.ppl-star {
+  animation: ppl-twinkle linear infinite;
+}
+.ppl-drift {
+  animation: ppl-drift 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ppl-orbit-spin,
+  .ppl-orbit-spin-slow,
+  .ppl-satellite-counter,
+  .ppl-star,
+  .ppl-drift {
+    animation: none !important;
+  }
+}

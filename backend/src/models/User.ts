@@ -40,6 +40,25 @@ class User {
     };
   }
 
+  async get(user_id: string) {
+    const user = await prismaClient.user.findFirst({
+      where: { id: user_id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true,
+      },
+    });
+
+    if (!user) {
+      throw new Error("User not exists");
+    }
+
+    return user;
+  }
+
   async create({ name, email, password }: UserType) {
     const userAlreadyExists = await prismaClient.user.findFirst({
       where: { email: email },
@@ -57,6 +76,7 @@ class User {
         name: true,
         email: true,
         role: true,
+        createdAt: true,
       },
     });
 
