@@ -6,23 +6,24 @@ import { compare, hash } from "bcryptjs";
 import { type AuthType } from "../types/AuthType.ts";
 import { type UserType } from "../types/UserType.ts";
 import prismaClient from "../prisma/index.ts";
+import { AppError } from "../errors/AppError.ts";
 
 const { sign } = jwt;
 
 class User {
   async auth({ email, password }: AuthType) {
-    const user = await prismaClient.user.findFirst({
+    const user = await prismaClient.user.findUnique({
       where: { email: email },
     });
 
     if (!user) {
-      throw new Error("User not exists");
+      throw new AppError("User not exists", 404);
     }
 
     const passwordMatch = await compare(password, user.password);
 
     if (!passwordMatch) {
-      throw new Error("Wrong password");
+      throw new AppError("Wrong password", 401);
     }
 
     const token = sign(
@@ -40,9 +41,9 @@ class User {
     };
   }
 
-  async get(user_id: string) {
-    const user = await prismaClient.user.findFirst({
-      where: { id: user_id },
+  async get(userId: string) {
+    const user = await prismaClient.user.findUnique({
+      where: { id: userId },
       select: {
         id: true,
         name: true,
@@ -53,19 +54,19 @@ class User {
     });
 
     if (!user) {
-      throw new Error("User not exists");
+      throw new AppError("User not exists", 404);
     }
 
     return user;
   }
 
   async create({ name, email, password }: UserType) {
-    const userAlreadyExists = await prismaClient.user.findFirst({
+    const userAlreadyExists = await prismaClient.user.findUnique({
       where: { email: email },
     });
 
     if (userAlreadyExists) {
-      throw new Error("User already exists");
+      throw new AppError("User already exists", 409);
     }
 
     const passwordHash = await hash(password, 8);

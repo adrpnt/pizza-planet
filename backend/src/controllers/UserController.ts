@@ -20,10 +20,9 @@ class UserController {
   }
 
   async show(req: Request, res: Response) {
-    const { id } = req.body;
     const userModel = new User();
 
-    const user = await userModel.get(id);
+    const user = await userModel.get(req.userId!);
 
     res.json({ message: "User retrieved", data: user });
   }
