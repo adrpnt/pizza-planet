@@ -9,9 +9,10 @@ import express, {
 } from "express";
 
 import { router } from "./routes.ts";
+import { AppError } from "./errors/AppError.ts";
 
 const app: Express = express();
-const PORT = process.env.PORT! || 3333;
+const PORT = process.env.PORT || 3333;
 
 app.use(express.json());
 app.use(cors());
@@ -22,7 +23,9 @@ app.use((error: Error, _: Request, res: Response, next: NextFunction) => {
     return next(error);
   }
 
-  res.status(500).json({
+  const statusCode = error instanceof AppError ? error.statusCode : 500;
+
+  res.status(statusCode).json({
     message: error.message || "Internal Server Error",
     // Only show stack traces in development mode
     stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
